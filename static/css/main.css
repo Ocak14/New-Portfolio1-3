@@ -282,7 +282,7 @@ div.uploader {
  	width: 100%; z-index: 100; line-height: 40px; min-height: 42px;
 		}
 	div.uploader span.filename {
- 	padding: 0 .8em; width: 100%; 100; line-height: 38px; min-height: 42px; border-left: 0; font-size: 13px; color: #6A7686;
+ 	padding: 0 .8em; width: 100%, 100; line-height: 38px; min-height: 42px; border-left: 0; font-size: 13px; color: #6A7686;
 		}
 	div.uploader span.action {
  	width: 44px; text-indent: -999em; background: #fff; padding: 0; position: absolute; top: 0; right: 0; font-size: 13px; border-left: 2px solid #E9E6DF; height: 100%;

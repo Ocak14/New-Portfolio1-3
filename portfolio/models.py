@@ -12,14 +12,18 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.email}"
-    
 
-class PortfolioItem(models.Model):
+  
+class PortfolioCategory(models.Model):
+    name = models.CharField(max_length=50)
+
+
+
+class Portfolio(models.Model):
     title = models.CharField(max_length=70)
     image = models.ImageField(upload_to='Images/portfolio')
     description = models.TextField()
-    link = models.URLField()
-
+    category = models.ForeignKey(PortfolioCategory,on_delete=models.CASCADE)
     def __str__(self):
         return self.title
     
@@ -50,6 +54,12 @@ class Gallery(models.Model):
     created_date = models.DateTimeField(auto_now=True)
 
 
+class Gallery_Single(models.Model):
+    title = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='Images/gallery_single') 
+   
+
+
 
 class Books(models.Model):
     image = models.ImageField(upload_to='Images/books')
@@ -71,3 +81,12 @@ class About(models.Model):
     created_date = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.title
+    
+
+
+class Portfolio_Single(models.Model):
+    title = models.CharField(max_length=70)
+    description = models.TextField()
+    image = models.ImageField(upload_to='Images/portfolio_single')
+    def __str__(self):
+        return self.title 

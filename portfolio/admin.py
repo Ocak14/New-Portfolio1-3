@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.contrib import admin
-from .models import Contact,PortfolioItem,Blog,Comment,Category,Gallery,Books,About
+from .models import Contact,Portfolio,Blog,Comment,Category,Gallery,Books,About,PortfolioCategory,Portfolio_Single,Gallery_Single
 from django.utils.html import format_html
 # Register your models here.
 
 
-admin.site.register((Comment,Category))
+admin.site.register((Comment,Category,PortfolioCategory))
 
 
 @admin.register(Contact)
@@ -15,7 +15,6 @@ class ContactAdmin(admin.ModelAdmin):
     def img(self, obj):
          return format_html('<img width="100" height="100" src="{}"style="border-radius: 50%;" />'.format(obj.image.url))
   
-
 
 
 @admin.register(Blog)
@@ -28,7 +27,7 @@ class BlogAdmin(admin.ModelAdmin):
 
 @admin.register(Books)
 class BooksAdmin(admin.ModelAdmin):
-    list_display = ('img','title','author','description','description','pages','publication_date','publisher')
+    list_display = ('img','title','author','description','pages','publication_date','publisher')
     readonly_fields = ['id']
     def img(self, obj):
          return format_html('<img width="100" height="100" src="{}"style="border-radius: 50%;" />'.format(obj.image.url))
@@ -37,8 +36,8 @@ class BooksAdmin(admin.ModelAdmin):
 
 
   
-@admin.register(PortfolioItem)
-class PortfolioItemAdmin(admin.ModelAdmin):
+@admin.register(Portfolio)
+class PortfolioAdmin(admin.ModelAdmin):
     list_display = ('img','title','description')
     readonly_fields = ['id']
 
@@ -46,9 +45,34 @@ class PortfolioItemAdmin(admin.ModelAdmin):
          return format_html('<img width="100" height="100" src="{}"style="border-radius: 50%;" />'.format(obj.image.url))
   
 
+
+  
+@admin.register(Portfolio_Single)
+class portfolio_singleAdmin(admin.ModelAdmin):
+    list_display = ('title','description','img')
+    readonly_fields = ['id']
+
+    def img(self, obj):
+         return format_html('<img width="100" height="100" src="{}"style="border-radius: 50%;" />'.format(obj.image.url))
+  
+
+
+
 @admin.register(Gallery)
 class GalleryAdmin(admin.ModelAdmin):
     list_display = ('img', 'title', 'created_date')
+    readonly_fields = ['id']
+
+    def img(self, obj):
+        return format_html(
+            '<img width="100" height="100" src="{}" style="border-radius: 50%;" />',
+            obj.image.url
+        )
+    
+    
+@admin.register(Gallery_Single)
+class Gallery_SingleAdmin(admin.ModelAdmin):
+    list_display = ('img', 'title')
     readonly_fields = ['id']
 
     def img(self, obj):

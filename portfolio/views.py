@@ -1,5 +1,6 @@
+from typing import Any
 from django.shortcuts import render
-from .models import Contact,Gallery,Blog,Books,PortfolioItem,About
+from .models import Contact,Gallery,Blog,Books,Portfolio,About,PortfolioCategory,Portfolio_Single,Gallery_Single
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -8,7 +9,7 @@ from django.core.paginator import Paginator
 from .forms import ContactForm
 from django.views.generic.edit import FormView
 from .bot import send_message
-
+from django.views.generic.list import ListView
 
 class ContactFormView(FormView):
     template_name = "contact.html"
@@ -29,17 +30,12 @@ def index_view(request):
  return render(request,'index.html')
 
 
-
-
-
-
-
 def About_view(request):
     about =About.objects.all()
     context = {
        "about" :about,
     }
-    return render(request,'about.html', {'about': about})
+    return render(request,'about.html', context)
 
 
 
@@ -61,16 +57,48 @@ def blog_view(request):
     }
     return render(request, 'blog.html', context)
 
+
 def books_view(request):
     books = Books.objects.all()
     context = {
         "books" : books,
     }
-    return render(request, 'books.html',context=context)
+    return render(request, 'books.html',context)
 
-def portfolio_view(request):
-    portfolio_item = PortfolioItem.objects.all()
-    # context = {
-    #   "portfolio" : portfolio,
-    # }
-    return render(request, 'portfolio_item.html', {'portfolio': portfolio_item})
+# def portfolio_view(request):
+#     portfolio = Portfolio.objects.all()
+#     context = {
+#         "portfolio" : portfolio,
+#     }
+#     return render(request, 'portfolio.html', context = context)
+
+class PortfolioListView(ListView):
+    model = Portfolio
+    # paginate_by = 100
+    context_object_name = 'portfolios'
+    template_name = "portfolio.html"
+
+
+
+    def get_context_data(self, **kwargs): 
+        context = super().get_context_data(**kwargs)
+        context["categories"] = PortfolioCategory.objects.all()
+        return context
+    
+
+
+def Portfolio_Single_view(request):
+    portfolio_single = Portfolio_Single.objects.all()
+    context = {
+        "portfolio_single" : portfolio_single,
+    }
+    return render(request, 'portfolio_single.html', context)
+
+
+
+def Gallery_Single_view(request):
+   gallery = Gallery.objects.all()
+   context = {
+        "gallery":gallery,
+    }
+   return render(request, 'gallery-single.html', context)
