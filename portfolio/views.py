@@ -1,6 +1,5 @@
-from typing import Any
 from django.shortcuts import render
-from .models import Contact,Gallery,Blog,Books,Portfolio,About,PortfolioCategory,Portfolio_Single,Gallery_Single
+from .models import Contact,Gallery,Blog,Books,Portfolio,About,PortfolioCategory,Portfolio_Single,Blog,Comment,Category,Gallery_Single
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -8,6 +7,7 @@ from hitcount.views import HitCountDetailView
 from django.core.paginator import Paginator
 from .forms import ContactForm
 from django.views.generic.edit import FormView
+from django.views.generic.detail import DetailView
 from .bot import send_message
 from django.views.generic.list import ListView
 
@@ -50,12 +50,28 @@ def Gallery_view(request):
     return render(request, 'Gallery.html',context)
 
 
-def blog_view(request):
-    blogs = Blog.objects.all()
-    context = {
-        "blogs": blogs,
-    }
-    return render(request, 'blog.html', context)
+# def blog_view(request):
+#     blogs = Blog.objects.all()
+#     context = {
+#         "blogs": blogs,
+#     }
+#     return render(request, 'blog.html', context)
+
+
+class BlogListView(ListView):
+    model = Blog
+    # paginate_by = 100
+    context_object_name = 'blogs'
+    template_name = "blog.html"
+
+
+
+    def get_context_data(self, **kwargs): 
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()
+        return context
+ 
+
 
 
 def books_view(request):
@@ -102,3 +118,22 @@ def Gallery_Single_view(request):
         "gallery":gallery,
     }
    return render(request, 'gallery-single.html', context)
+
+
+
+
+   
+class BlogDetailView(DetailView):
+    model = Blog
+    template_name = "blog-single.html"
+    context_object_name = "blog"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["comments"] = Comment.objects.filter(blog=context.get('blog'))
+        context['comments_count'] = Comment.objects.filter(blog=context.get('blog')).count()
+
+        return context
+    
+
+

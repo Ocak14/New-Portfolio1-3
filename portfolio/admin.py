@@ -19,7 +19,7 @@ class ContactAdmin(admin.ModelAdmin):
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ('img','title','created_date','content')
+    list_display = ('img','title','created_date','content','category')
     readonly_fields = ['id']
     def img(self, obj):
          return format_html('<img width="100" height="100" src="{}"style="border-radius: 50%;" />'.format(obj.image.url))
@@ -72,7 +72,7 @@ class GalleryAdmin(admin.ModelAdmin):
     
 @admin.register(Gallery_Single)
 class Gallery_SingleAdmin(admin.ModelAdmin):
-    list_display = ('img', 'title')
+    list_display = ('img', 'title','created_date')
     readonly_fields = ['id']
 
     def img(self, obj):
@@ -89,3 +89,4 @@ class AboutAdmin(admin.ModelAdmin):
     def img(self, obj):
          return format_html('<img width="100" height="100" src="{}" style="border-radius: 50%;"/>'.format(obj.image.url))
   
+

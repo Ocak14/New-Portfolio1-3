@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index_view, books_view, PortfolioListView, About_view, Gallery_view, blog_view, ContactFormView, Portfolio_Single_view,Gallery_Single_view
+from .views import index_view, books_view, PortfolioListView, About_view, Gallery_view, BlogListView, ContactFormView, Portfolio_Single_view,Gallery_Single_view,BlogDetailView 
 
 from . import views
 urlpatterns = [
@@ -9,7 +9,9 @@ urlpatterns = [
     path('portfolio/', PortfolioListView.as_view(), name='portfolio-page'),
     path('about/', About_view, name='about-page'),
     path('gallery/', Gallery_view, name='gallery-page'),
-    path('blog/', blog_view, name='blog-page'),
+    path('blog/', BlogListView.as_view(), name='blog-page'),
     path('portfolio-single/', Portfolio_Single_view, name='portfolio-single-page'),
-    path('gallery_single/', Gallery_Single_view,name='gallery-single-page')
+    path('gallery_single/', Gallery_Single_view,name='gallery-single-page'),
+    path('blog/<int:pk>',BlogDetailView.as_view(),name="blog-single-page")
+  
 ]
